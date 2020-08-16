@@ -1,13 +1,13 @@
 {
-    "table":"members",
-    "uri":"/admin/members",
+    "table":"permit",
+    "uri":"/admin/permit",
     "list":{
-        "title":"회원목록",
+        "title":"권환설정",
         "resource":"/resource/members/members.html",
         "fields": {
-            "id":"번호",          
-            "firstname":"성명",
-            "lastname":"이름",
+            "id":"번호",        
+            "uri":"리소스",
+            "permit":"권환",
             "email":"이메일"
         },
         "href":{
@@ -15,7 +15,7 @@
                 "script",
                 "javascript:board_edit({id});"
             ],
-            "email":"/admin/members/{id}"
+            "email":"/admin/permit/{id}"
         }    
     },
     "view":{
@@ -25,11 +25,11 @@
             "id":{
                 "label":"번호"
             },
-            "firstname":{
-                "label":"성명"
+            "uri":{
+                "label":"리소스"
             },
-            "lastname":{
-                "label":"이름"
+            "permit":{
+                "label":"권환"
             },
             "email":{
                 "label":"이메일"
@@ -41,38 +41,32 @@
         "title":"신규회원등록",
         "resource":"/resource/members/members_new.html",
         "fields":{
+            "uri":{
+                "label":"리소스",
+                "type":"text",
+                "name":"uri", 
+                "placeholder":"리소스 uri를 선택해 주세요"
+            },
+            "permit":{
+                "label":"권환",
+                "type":"text",
+                "name":"permit",
+                "placeholder":"권환정보를 설정해 주세요"
+            },
             "email":{
                 "label":"이메일",
                 "type":"text",
                 "name":"email", 
-                "placeholder":"이메일을 입력해 주세요"
-            },
-            "password":{
-                "label":"패스워드",
-                "type":"text",
-                "name":"password",
-                "placeholder":"패스워드 입력"
-            },
-            "firstname":{
-                "label":"이름",
-                "type":"text",
-                "name":"firstname", 
-                "placeholder":"이름을 입력해 주세요"
+                "placeholder":"사용자 이메일을 입력해 주세요"
             },
             "submit":{
                 "type":"submit",
-                "value":"등록",
+                "value":"추가",
                 "class":"btn btn-primary"
             }
         },
         "validate":{
-            "email":{
-                "type":"email"
-            },
-            "password":{
-                "type":"password",
-                "minlen": 6
-            }
+  
         }
     },
     "edit":{

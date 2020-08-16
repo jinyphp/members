@@ -12,8 +12,10 @@ class Login
     {
         // 미들웨어
         $this->Auth = new \Jiny\Members\Auth($this);
-        $this->conf = \json_decode(\file_get_contents("../Config/Login.json"));
+        $this->conf = \json_decode(\file_get_contents("../config/login.json"));
         // print_r($this->conf);
+
+        $this->resource = $this->conf->login->resource;
     }
 
     /**
@@ -94,15 +96,18 @@ class Login
         return $this->view();
     }
 
+    public $resource;
     private function view()
     {
+        $email = isset($_POST['data']['email']) ? $_POST['data']['email'] : "";
         $vars = [
             'error_message'=>$this->error_message,
-            'email'=>$_POST['data']['email']
+            'email' => $email
         ];
-        $file = $this->conf->login->resource;
+        // $this->resource = $this->conf->login->resource;
+        // $file = $this->conf->login->resource;
         // echo $file;
-        $body =  \jiny\html_get_contents($file, $vars);
+        $body =  \jiny\html_get_contents($this->resource, $vars);
         return $body;
     }
 

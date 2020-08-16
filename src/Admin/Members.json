@@ -1,0 +1,129 @@
+{
+    "table":"members",
+    "uri":"/admin/members",
+    "list":{
+        "title":"회원 목록",
+        "resource":"/resource/members/members.html",
+        "fields": {
+            "id":"번호",          
+            "firstname":"성명",
+            "lastname":"이름",
+            "email":"이메일"
+        },
+        "href":{
+            "id":[
+                "script",
+                "javascript:btnBoardEdit({id})"
+            ],
+            "firstname":[
+                "script",
+                "javascript:btnBoardView({id})"
+            ],
+            "email":"/admin/members/{id}"
+        }    
+    },
+    "view":{
+        "title":"회원정보",
+        "resource":"/resource/members/members_view.html",
+        "fields": {
+            "id":{
+                "label":"번호"
+            },
+            "firstname":{
+                "label":"성명"
+            },
+            "lastname":{
+                "label":"이름"
+            },
+            "email":{
+                "label":"이메일"
+            }
+        }
+
+    },
+    "new":{
+        "title":"신규회원등록",
+        "resource":"/resource/members/members_new.html",
+        "fields":{
+            "email":{
+                "label":"이메일",
+                "type":"text",
+                "name":"email", 
+                "placeholder":"이메일을 입력해 주세요"
+            },
+            "password":{
+                "label":"패스워드",
+                "type":"text",
+                "name":"password",
+                "placeholder":"패스워드 입력"
+            },
+            "firstname":{
+                "label":"이름",
+                "type":"text",
+                "name":"firstname", 
+                "placeholder":"이름을 입력해 주세요"
+            },
+            "submit1":{
+                "type":"button",
+                "value":"api 삽입",
+                "class":"btn btn-primary",
+                "id":"btn-board-submit-post"
+            },
+            "submit2":{
+                "type":"button",
+                "value":"post 삽입",
+                "class":"btn btn-primary",
+                "id":"btn-board-submit"
+            }
+        },
+        "validate":{
+            "email":{
+                "type":"email"
+            },
+            "password":{
+                "type":"password",
+                "minlen": 6
+            }
+        }
+    },
+    "edit":{
+        "title":"회원정보 수정",
+        "resource":"/resource/members/members_edit.html",
+        "fields":{
+            "email":{
+                "label":"이메일",
+                "type":"text",
+                "name":"email", 
+                "placeholder":"이메일을 입력해 주세요",
+                "require":""
+            },
+            "password":{
+                "label":"패스워드",
+                "type":"text",
+                "name":"password",
+                "placeholder":"패스워드 입력",
+                "require":""
+            },
+            "submit1":{
+                "type":"button",
+                "value":"put수정",
+                "class":"btn btn-primary",
+                "id":"btn-board-submit-put"
+            },
+            "submit2":{
+                "type":"button",
+                "value":"post수정",
+                "class":"btn btn-primary",
+                "id":"btn-board-submit"
+            }
+        },
+        "validate":{
+            "email":{
+                "type":"text"
+            }
+        }
+    },
+    "delete":{
+
+    }
+}
