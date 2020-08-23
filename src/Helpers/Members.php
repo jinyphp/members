@@ -23,15 +23,27 @@ function uri()
 /**
  * 서브 네임스페이스 설정
  */
-namespace jiny\members\login\button;
-function google($conf=null)
+namespace jiny\members\login;
+function buttonGoogle($conf=null)
 {
     $Google = new \Jiny\Members\Google($conf);
     echo $Google->button();
 }
 
-function naver($conf=null)
+function buttonGoogleHref($conf=null)
+{
+    $Google = new \Jiny\Members\Google($conf);
+    echo $Google->href();
+}
+
+function buttonNaver($conf=null)
 {
     $Naver = new \Jiny\Members\Naver($conf);
     echo $Naver->button();
+}
+
+function buttonNaverHref($conf=null)
+{
+    $Naver = new \Jiny\Members\Naver($conf);
+    echo $Naver->href();
 }

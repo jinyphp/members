@@ -126,6 +126,11 @@ class Google
         } 
     }
 
+    public function href()
+    {
+        return $this->login_url; 
+    }
+
     /**
      * 
      */

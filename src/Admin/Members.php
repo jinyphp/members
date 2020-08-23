@@ -13,8 +13,9 @@ class Members extends \Jiny\Board\Controller
     public function __construct($controller=null)
     {
         $this->controller = $controller;
+
         $conf = $this->confPath();
-        $this->init()->setEnv($conf);
+        $this->init($conf);
     }
 
     public function confPath()

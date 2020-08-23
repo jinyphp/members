@@ -78,4 +78,32 @@ class Database
         return 0;
     }
 
+
+    /// 파사드 함수
+    public function newUser($data)
+    {
+        if ($this->byEmail($data['email'])) {
+            // 회원 이메일 중복
+            return false;
+        } else {
+            // 패스워드 암호화
+            $encrypt = new \Jiny\Members\Encryption();
+            $data['password'] = $encrypt->encryption($data['password']);
+
+            // 데이터베이스 삽입
+            $insert = $this->_db->insert("members", $data)->autoField();
+            if ($id = $insert->save()) {
+                // echo "데이터 삽입 성공 = ".$id;
+                return $id;
+            } else {
+                // echo "데이터 삽입 실패";
+                return false;
+            }
+        }     
+    }
+
+
+
+
+
 }

@@ -5,22 +5,37 @@
         "title":"회원 목록",
         "resource":"/resource/members/members.html",
         "fields": {
-            "id":"번호",          
-            "firstname":"성명",
-            "lastname":"이름",
-            "email":"이메일"
-        },
-        "href":{
-            "id":[
-                "script",
-                "javascript:btnBoardEdit({id})"
-            ],
-            "firstname":[
-                "script",
-                "javascript:btnBoardView({id})"
-            ],
-            "email":"/admin/members/{id}"
-        }    
+            "id":{
+                "title":"번호",
+                "attr":{
+                    "style":"width:10%;"
+                },
+                "href":[
+                    "script",
+                    "javascript:btnBoardEdit({id})"
+                ]
+            },          
+            "firstname":{
+                "title":"성명",
+                "attr":{
+                    "style":"width:20%;"
+                },
+                "href":[
+                    "script",
+                    "javascript:btnBoardView({id})"
+                ]
+            },
+            "lastname":{
+                "title":"이름",
+                "attr":{
+                    "style":"width:20%;"
+                }
+            },
+            "email":{
+                "title":"이메일",
+                "href":"/admin/members/{id}"
+            }
+        }  
     },
     "view":{
         "title":"회원정보",
@@ -46,34 +61,81 @@
         "resource":"/resource/members/members_new.html",
         "fields":{
             "email":{
-                "label":"이메일",
-                "type":"text",
-                "name":"email", 
-                "placeholder":"이메일을 입력해 주세요"
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"이메일",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "_input": {
+                    "type":"email",
+                    "name":"email", 
+                    "placeholder":"이메일을 입력해 주세요",
+                    "required":"",
+                    "title":"이메일",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
             "password":{
-                "label":"패스워드",
-                "type":"text",
-                "name":"password",
-                "placeholder":"패스워드 입력"
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"패스워드",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "_password": {
+                    "type":"password",
+                    "name":"password",
+                    "placeholder":"패스워드 입력",
+                    "title":"패스워드",
+                    "data-minlength":"6",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
             "firstname":{
-                "label":"이름",
-                "type":"text",
-                "name":"firstname", 
-                "placeholder":"이름을 입력해 주세요"
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"이름",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "_input": {
+                    "type":"text",
+                    "name":"firstname", 
+                    "placeholder":"이름을 입력해 주세요",
+                    "maxlength":"5",
+                    "required":"required",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
-            "submit1":{
-                "type":"button",
-                "value":"api 삽입",
-                "class":"btn btn-primary",
-                "id":"btn-board-submit-post"
-            },
-            "submit2":{
-                "type":"button",
-                "value":"post 삽입",
-                "class":"btn btn-primary",
-                "id":"btn-board-submit"
+            "submit":{
+                "aaa":"<div class='form-row'><div class='col-2'>",
+                "button1" : {
+                    "type":"button",
+                    "title":"POST 삽입",
+                    "class":"btn btn-primary",
+                    "id":"btn-board-submit-post"
+                },
+                "bbb":"</div><div class='col-2'>",
+                "button2":{
+                    "type":"button",
+                    "title":"삽입",
+                    "class":"btn btn-primary",
+                    "id":"btn-board-submit"
+                },
+                "ccc":"</div></div>"
             }
         },
         "validate":{
@@ -85,37 +147,89 @@
                 "minlen": 6
             }
         }
+
     },
     "edit":{
         "title":"회원정보 수정",
         "resource":"/resource/members/members_edit.html",
         "fields":{
             "email":{
-                "label":"이메일",
-                "type":"text",
-                "name":"email", 
-                "placeholder":"이메일을 입력해 주세요",
-                "require":""
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"이메일",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "input": {
+                    "type":"email",
+                    "name":"email", 
+                    "placeholder":"이메일을 입력해 주세요",
+                    "required":"",
+                    "title":"이메일",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
             "password":{
-                "label":"패스워드",
-                "type":"text",
-                "name":"password",
-                "placeholder":"패스워드 입력",
-                "require":""
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"패스워드",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "password": {
+                    "type":"password",
+                    "name":"password",
+                    "placeholder":"패스워드 재설정",
+                    "title":"패스워드",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
-            "submit1":{
-                "type":"button",
-                "value":"put수정",
-                "class":"btn btn-primary",
-                "id":"btn-board-submit-put"
+            "firstname":{
+                "group1":"<div class='form-group row'>",
+                "label" : {
+                    "title":"이름",
+                    "class":"col-sm-2 col-form-label"
+                },
+                "aaa":"<div class='col-sm-10'>",
+                "input": {
+                    "type":"text",
+                    "name":"firstname", 
+                    "placeholder":"이름을 입력해 주세요",
+                    "maxlength":"5",
+                    "required":"required",
+
+                    "class":"form-control",
+                    "aria-describedby":"emailHelp"
+                },
+                "bbb":"</div>",
+                "group2":"</div>"
             },
-            "submit2":{
-                "type":"button",
-                "value":"post수정",
-                "class":"btn btn-primary",
-                "id":"btn-board-submit"
+            "submit":{
+                "aaa":"<div class='form-row'><div class='col-2'>",
+                "button1" : {
+                    "type":"button",
+                    "title":"PUT 수정",
+                    "class":"btn btn-primary",
+                    "id":"btn-board-submit-put"
+                },
+                "bbb":"</div><div class='col-2'>",
+                "button2":{
+                    "type":"button",
+                    "title":"수정",
+                    "class":"btn btn-primary",
+                    "id":"btn-board-submit"
+                },
+                "ccc":"</div></div>"
             }
+
         },
         "validate":{
             "email":{

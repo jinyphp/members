@@ -186,6 +186,11 @@ class Naver
     {
         return "<a href='".$this->apiURL."'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>";
     }
+
+    public function href()
+    {
+        return $this->apiURL;
+    }
 }
 
 

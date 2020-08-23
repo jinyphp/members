@@ -109,6 +109,7 @@ class Registration
     /**
      * 유효성 체크
      */
+    /*
     private $error_message = "";
     private function validate($objs, $data)
     {
@@ -140,112 +141,14 @@ class Registration
     {
         return isset($this->conf->regist->forms->validate) ? $this->conf->regist->forms->validate : [];
     }
+    */
 
-    private function registration()
-    {
-        // 회원가입 처리
-        //echo "회원가입처리<br>";
-        $data =\jiny\formData();
+    
 
-        $validate = $this->isValidate();
-        if(!empty($validate)) {
-            //echo "유효성 체크";
-            $_validate = $this->validate($validate, $data);
-        } else {
-            // 유효성 체크 없음.
-            $_validate = true;
-        }
-        
-        if($_validate) {
-            // echo "<br>유효성 성공";
-            if ($this->isUser($data['email'])) {
-                $this->error_message = "가입할 수 없습니다. 이미 존재하는 이메일 입니다.";
-                return $this->registForm();
-            }
-            else {
-                $data['token'] = \hash("sha256", $data['email'].date("Y-m-d H:i:s"));
-                if($id=$this->newInsert($data)) {
-                    // 인증메일 코드 발송
-                    if ($this->authMail($data)) {
-                        $file = "../resource/members/registration_mail.html";
-                        $body = \jiny\html_get_contents($file);
-                        return $body;
-                    }
+    
 
-                    exit;
-                    // 테이터 삽입 성공
-                    // post redirect get pattern
-                    header("HTTP/1.1 301 Moved Permanently");
-                    header("location:".$this->conf->mypage->uri);
-                }
-            }
+    
 
-        } else {
-            // echo "<br>유효성 검증 실패<br>";
-            return $this->registForm();
-        }
-    }
 
-    private function authMail($data)
-    {
-       
-
-            $link = "http://localhost:8000/login/confirm?token=".$data['token'];
-            $mailbody = "첨부한 링크를 클릭하여 회원가입을 ";
-            $mailbody .= "<a href='$link'>활성화</a>를 해주세요.";
-
-            /// 
-
-            // 메일발송
-            // Create the Transport
-            $smtp = new \Swift_SmtpTransport('smtp.googlemail.com', 465, 'ssl');
-            $smtp->setUsername('lin2m200128@gmail.com');
-            $smtp->setPassword('Hojin@3106');
-
-            // Create the Mailer using your created Transport
-            $mailer = new \Swift_Mailer($smtp);
-
-            // Create a message
-            $title = '[진달래꽃] 회원가입 인증';
-            $message = new \Swift_Message($title);
-            $message->setFrom(['infohojin@gmail.com' => 'HojinLee']);
-            $message->setTo([$data['email'] ]);
-            // $message->setBody($mailbody); // 일반텍스트
-            $message->setBody($mailbody, 'text/html');
-            
-            // Send the message
-            $result = $mailer->send($message);
-
-            echo "인증메일이 발송되었습니다.";
-            return $result;
-        
-    }
-
-    private function isUser($email)
-    {
-        $MemDB = new \Jiny\Members\Database;
-        if ($info = $MemDB->byEmail($email)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private function newInsert($data)
-    {
-        // 패스워드 암호화
-        $PassWord = new \Jiny\Members\Encryption();
-        $data['password'] = $PassWord->encryption($data['password']);
-
-        // 데이터베이스 삽입
-        $insert = $this->db->insert("members", $data)->autoField();
-        if ($id = $insert->save()) {
-            // echo "데이터 삽입 성공 = ".$id;
-            return $id;
-        } else {
-            // echo "데이터 삽입 실패";
-            return false;
-        }
-    }
 
 }
