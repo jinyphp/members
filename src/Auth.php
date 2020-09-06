@@ -10,17 +10,18 @@ class Auth
     
     public $message;
 
+    use \Jiny\Petterns\Singleton; // 싱글턴 패턴 적용
+
     public function __construct($ctrl=null)
     {
         // echo __CLASS__;
         $this->controller = $ctrl;
+    }
 
-        // 미들웨어
+    private function init()
+    {
         $dbinfo = \jiny\dbinfo();
         $this->db = \jiny\mysql($dbinfo);
-
-        // 세션 시작
-        // \session_start();
     }
 
     // 인증상태 여부
@@ -99,4 +100,5 @@ class Auth
         session_destroy();
         $this->_status = false;
     }
+    
 }

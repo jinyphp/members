@@ -4,6 +4,13 @@
  */
 namespace jiny\members;
 
+
+    function auth()
+    {
+        return \Jiny\Members\Auth::instance();
+    }
+
+
 function logout()
 {
     return \Jiny\Members\Logout::instance();

@@ -2,22 +2,23 @@
 
 namespace Jiny\Members;
 
-class Mypage
+class Mypage extends Config
 {
     private $Auth;
-    private $conf;
     private $csrf;
+
     public function __construct()
     {
-        // echo __CLASS__;
-        $this->Auth = new \Jiny\Members\Auth($this);
-        $this->conf = \jiny\json_get_object("../Config/Login.json");
+        $this->Auth = \jiny\members\auth();
+        $this->config();
 
         $dbinfo = \jiny\dbinfo();
         $this->db = \jiny\mysql($dbinfo);
 
         $this->csrf = "hello";
     }
+
+
 
     public function main()
     {
@@ -27,10 +28,18 @@ class Mypage
 
         } else {
             // 비로그인 상태일 경우, 로그인을 요청합니다.
-            // post redirect get pattern
-            header("HTTP/1.1 301 Moved Permanently");
-            header("location:".$this->conf->login->uri);
+            $this->loginRedirect();
         }
+    }
+
+    private function loginRedirect($uri=null)
+    {
+        if(!$uri) $uri = $this->conf->login->uri;
+        
+        // post redirect get pattern
+        header("HTTP/1.1 301 Moved Permanently");
+        header("location:".$uri);
+
     }
 
     public function GET()

@@ -7,30 +7,11 @@ class Logout
     private $Auth;
     public $nextPage;
 
-    /**
-     * 싱글턴
-     */
-    public static $_instance;
-
-    public static function instance($args=null)
-    {
-        if (!isset(self::$_instance)) {        
-            //echo "객체생성\n";
-            // print_r($args);   
-            self::$_instance = new self($args); // 인스턴스 생성
-            if (method_exists(self::$_instance,"init")) {
-                self::$_instance->init();
-            }
-            return self::$_instance;
-        } else {
-            //echo "객체공유\n";
-            return self::$_instance; // 인스턴스가 중복
-        }
-    }
+    use \Jiny\Petterns\Singleton; // 싱글턴 패턴 적용
 
     public function __construct()
     {
-        // echo __CLASS__;
+        // 인증확인 객체 생성
         $this->Auth = new \Jiny\Members\Auth($this);
     }
 
@@ -43,7 +24,7 @@ class Logout
 
         } else {
             // 로그인 페이지 이동
-            $this->login();
+            $this->loginRedirection();
         }
     }
 
@@ -59,7 +40,7 @@ class Logout
     /**
      * 로그인 페이지 리다이렉션
      */
-    private function login()
+    private function loginRedirection()
     {
         $redirect = "/login";
         header("HTTP/1.1 301 Moved Permanently");
