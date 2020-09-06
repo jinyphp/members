@@ -4,6 +4,15 @@
  */
 namespace jiny\members;
 
+if (! function_exists('isGoogle')) {
+    function isGoogle()
+    {
+        return \Jiny\Members\Google::instance();
+    }
+}
+
+
+
 
     function auth()
     {
@@ -31,6 +40,9 @@ function uri()
  * 서브 네임스페이스 설정
  */
 namespace jiny\members\login;
+
+
+
 function buttonGoogle($conf=null)
 {
     $Google = new \Jiny\Members\Google($conf);

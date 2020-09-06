@@ -4,7 +4,7 @@ namespace Jiny\Members;
 /**
  * 패스워드 찾기
  */
-class Password
+class Password extends Config
 {
     private $conf;
     private $_db;

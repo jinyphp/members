@@ -2,24 +2,19 @@
 
 namespace Jiny\Members;
 
-class Login
+class Login extends Config
 {
     private $db;
     private $Auth;
-    public $conf;
-    private $error_message = "";
+
     public function __construct()
     {
-        // 미들웨어
-        $this->Auth = new \Jiny\Members\Auth($this);
-        $this->conf = \json_decode(\file_get_contents("../config/login.json"));
-        // print_r($this->conf);
-
-        $this->resource = $this->conf->login->resource;
+        $this->Auth = \jiny\members\auth();
+        $this->config();
     }
 
     /**
-     * 기본 시작main
+     * 시작 main
      */
     public function main()
     {
@@ -29,24 +24,39 @@ class Login
 
         } else {
             // 인증 요청
-            $http = \jiny\http();
-            return $http->callback($this);
+            // $http = \jiny\http();
+            // return $http->callback($this);
+            $reqMethod = strtoupper($_SERVER['REQUEST_METHOD']);
+            if (method_exists($this, $reqMethod)) {
+                return $this->$reqMethod();
+            } else {
+                echo __METHOD__;
+                echo $reqMethod." 메소드를 호출할 수 없습니다.";
+                exit;
+            }
+
         }
     }
 
     /**
-     * 로그인상태
-     * 페이지 이동
+     * 로그인상태 / 페이지 이동
      */
     public function mypage()
     {
-        // $page = "/mypage";
-        $page = $this->conf->mypage->uri;
-        // echo "마이페이지";
+        if(isset($this->conf->mypage->uri)) {
+            $this->redirect($this->conf->mypage->uri);
+        } else {
+            // /jiny/error(__METHOD__, "mypage 이동 uri가 설정되어 있지 않습니다.");
+        }        
+    }
+
+    private function redirect($redirect)
+    {
         // post redirect get pattern
         header("HTTP/1.1 301 Moved Permanently");
-        header("location:".$page);
+        header("location:".$redirect);
     }
+
 
     public function GET($vars=[])
     {
@@ -54,6 +64,7 @@ class Login
         return $this->view();
     }
 
+    // 유효성 검사
     private function isEmail()
     {
         if (!isset($_POST['data']['email']) || empty($_POST['data']['email'])) {
@@ -63,6 +74,8 @@ class Login
             return true;
         }
     }
+
+    // 유효성 검사
     private function isPassword()
     {
         if (!isset($_POST['data']['password']) || empty($_POST['data']['password'])) {
@@ -78,17 +91,16 @@ class Login
      */
     public function POST()
     {
-        // echo "로그인 검증";
-        $data = \jiny\formData();
-        
+        $data = \jiny\formData();   
         if ($this->isEmail() && $this->isPassword()) {
+            
+            // 로그인 DB인증을 요청합니다.
             $status = $this->Auth->signin($data['email'], $data['password']);
             if($status) {
-                // echo "로그인 성공";
+                // mypage로 이동을 합니다.
                 return $this->mypage();
             } else {
                 // 로그인 실패
-                // echo $this->Auth->message;
                 $this->error_message = "이메일, 패스워드가 일치하지 않습니다.";
             }         
         }
@@ -96,18 +108,18 @@ class Login
         return $this->view();
     }
 
-    public $resource;
+
+
+    // 로그인 화면
     private function view()
     {
         $email = isset($_POST['data']['email']) ? $_POST['data']['email'] : "";
         $vars = [
-            'error_message'=>$this->error_message,
             'email' => $email
         ];
-        // $this->resource = $this->conf->login->resource;
-        // $file = $this->conf->login->resource;
-        // echo $file;
-        $body =  \jiny\html_get_contents($this->resource, $vars);
+
+        $resource = $this->conf->login->resource;
+        $body =  \jiny\html_get_contents($resource, $vars);
         return $body;
     }
 

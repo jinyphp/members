@@ -4,6 +4,8 @@ namespace Jiny\Members;
 
 class Google
 {
+    use \Jiny\Petterns\Singleton; // 싱글턴 패턴 적용
+
     private $login_url;
     private $client;
     private $Auth;
@@ -33,6 +35,11 @@ class Google
         
         // login URL
         $this->login_url = $this->client->createAuthUrl();
+    }
+
+    public function enable()
+    {
+        return isset($this->conf->google);
     }
 
     public function main()
