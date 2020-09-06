@@ -2,17 +2,17 @@
 
 namespace Jiny\Members;
 
-class Logout
+class Logout extends Config
 {
     private $Auth;
-    public $nextPage;
 
     use \Jiny\Petterns\Singleton; // 싱글턴 패턴 적용
 
     public function __construct()
     {
         // 인증확인 객체 생성
-        $this->Auth = new \Jiny\Members\Auth($this);
+        $this->Auth = \jiny\members\auth();
+        $this->config();
     }
 
     public function main()
@@ -20,36 +20,45 @@ class Logout
         if($this->Auth->status()) {
             // 로그인 상태에서만 로그아웃이 가능합니다.
             $this->Auth->signout();
-            return $this->success();
 
-        } else {
-            // 로그인 페이지 이동
-            $this->loginRedirection();
-        }
+            if ($resource = $this->resource()) {
+                // 로그아웃 리소스가 있는 경우 화면출력
+                return $this->success($resource);
+            }
+        } 
+        
+        // 로그인 페이지 이동
+        $this->redirect($this->conf->login->uri);        
     }
 
     /**
      * 로그아웃 페이지
      */
-    private function success($file = "../resource/members/logout.html")
+    private function success($file)
     {
+        $vars = [];
         $body =  \jiny\html_get_contents($file, $vars);
         return $body;
+    }
+
+    private function resource()
+    {
+        // 리소스 파일경로
+        return $this->conf->logout->resource;
     }
 
     /**
      * 로그인 페이지 리다이렉션
      */
-    private function loginRedirection()
+    private function redirect($redirect)
     {
-        $redirect = "/login";
         header("HTTP/1.1 301 Moved Permanently");
         header("location:".$redirect);
     }
 
     public function uri()
     {
-        return "/logout";
+        return $this->conf->logout->uri;
     }
 
     /**
